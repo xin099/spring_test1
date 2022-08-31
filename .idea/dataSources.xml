@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="mngtest@bj-cynosdbmysql-grp-9jmwc8wi.sql.tencentcdb.com" uuid="515127d1-753e-4457-be34-9f1dfc1141c8">
+    <data-source source="LOCAL" name="腾讯云--北京5区MySQL" uuid="515127d1-753e-4457-be34-9f1dfc1141c8">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
