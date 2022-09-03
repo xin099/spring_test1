@@ -19,7 +19,23 @@ public class UserService {
     private UserMapper userMapper;
 
     //往数据里插入一个用户,用于注册功能
-    public int insert(User user){
+    public int insert(User user) {
         return userMapper.insert(user);
     }
+
+    //根据用户名查询用户的详细信息，用户登录功能
+    public User selectByName(String username) {
+        return userMapper.selectByName(username);
+    }
+
+    // 总比赛场数 + 1, 获胜场数 + 1, 天梯分数 + 30
+    public int userWin(int userId) {
+        return userMapper.userWin(userId);
+    }
+
+    // 总比赛场数 + 1, 获胜场数 不变, 天梯分数 - 30
+    public int userLose(int userId) {
+        return userMapper.userLose(userId);
+    }
+
 }
