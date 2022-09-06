@@ -29,6 +29,7 @@ public class UserController {
     @RequestMapping("/login")
     @ResponseBody
     public Object login(String username, String password, HttpServletRequest request){
+        System.out.println("login");
         User user = userService.selectByName(username);
 
         if (user == null){
