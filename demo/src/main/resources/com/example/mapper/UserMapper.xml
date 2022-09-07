@@ -21,7 +21,7 @@
         where userId = #{userId};
     </update>
     <!--失败-->
-    <update id="userWin">
+    <update id="userLose">
         update User
         set totalCount = totalCount + 1,
             score      = score - 30
