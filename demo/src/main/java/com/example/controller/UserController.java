@@ -2,13 +2,13 @@ package com.example.controller;
 
 import com.example.Service.UserService;
 import com.example.model.User;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -22,6 +22,7 @@ import java.io.IOException;
  * @create: 2022-09-03 20:46
  **/
 @RestController
+@Log4j2
 public class UserController {
     @Autowired
     private UserService userService;
@@ -29,19 +30,21 @@ public class UserController {
     private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 //    @Resource
 //    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     /**
-    * @Description: 用户查询
-    * @Param:
-    * @return: User
-    * @Author: XX
-    * @Date:
-    */
+     * @Description: 用户查询
+     * @Param:
+     * @return: User
+     * @Author: XX
+     * @Date:
+     */
     @RequestMapping("/login")
     @ResponseBody
     public Object login(String username, String password, HttpServletRequest request) {
         User user = userService.selectByName(username);
 
         if (user == null) {
+            log.info("登录失败！");
             System.out.println("登录失败！");
             return new User();
         } else {
@@ -56,23 +59,24 @@ public class UserController {
     }
 
     /**
-    * @Description: 注册新用户
-    * @Param:
-    * @return: user
-    * @Author: XX
-    * @Date: 0908
-    */
+     * @Description: 注册新用户
+     * @Param:
+     * @return: user
+     * @Author: XX
+     * @Date: 0908
+     */
     @RequestMapping("/register")
     @ResponseBody
-    public Object register(String username,String password){
+    public Object register(String username, String password) {
         User user1 = userService.selectByName(username);
-        if (user1 != null){
+        if (user1 != null) {
+            log.error("用户已存在");
             System.out.println("用户已存在");
             return new User();
-        }else {
+        } else {
             User user2 = new User();
             user2.setUsername(username);
-            String password1 =bCryptPasswordEncoder.encode(password);
+            String password1 = bCryptPasswordEncoder.encode(password);
             user2.setPassword(password1);
             userService.insert(user2);
             return user2;
@@ -80,33 +84,34 @@ public class UserController {
     }
 
     /**
-    * @Description: 获取用户信息
-    * @Param:
-    * @return: User
-    * @Author: XX
-    * @Date: 0908
-    */
+     * @Description: 获取用户信息
+     * @Param:
+     * @return: User
+     * @Author: XX
+     * @Date: 0908
+     */
     @RequestMapping("/userinfo")
     @ResponseBody
-    public Object getUserInfo(HttpServletRequest request){
+    public Object getUserInfo(HttpServletRequest request) {
         try {
-            HttpSession session =request.getSession(false);
-            User user =(User)session.getAttribute("user");
-            User newuser =userService.selectByName(user.getUsername());
+            HttpSession session = request.getSession(false);
+            User user = (User) session.getAttribute("user");
+            User newuser = userService.selectByName(user.getUsername());
             return newuser;
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
+            log.error("没有该用户");
             System.out.println("没有该用户");
             return new User();
         }
     }
 
     /**
-    * @Description: 退出登录
-    * @Param:
-    * @return:
-    * @Author: XX
-    * @Date: 0908
-    */
+     * @Description: 退出登录
+     * @Param:
+     * @return:
+     * @Author: XX
+     * @Date: 0908
+     */
     @RequestMapping("/logout")
     public void logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession(false);

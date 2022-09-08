@@ -5,6 +5,27 @@
     <title>登录页面</title>
 </head>
 <body>
-
+<div class="container">
+    <div>
+        <!--        展示用户信息-->
+        <div id="screen"></div>
+        <!--        匹配按钮-->
+        <div id="match-button"></div>
+    </div>
+</div>
+<script src="websocket.js"></script>
+<script>
+    $.ajax({
+        type: 'get',
+        url: '/userinfo',
+        success: function (body) {
+            let screenDiv = document.querySelector('#screen');
+            screenDiv.innerHTML = '玩家：' + body.username + '分数：' + body.score + '<br>比赛场次：' + body.totalCount + '获胜场次：' + body.winCount
+        },
+        error: function () {
+            alert("获取用户信息失败！");
+        }
+    });
+</script>
 </body>
 </html>
