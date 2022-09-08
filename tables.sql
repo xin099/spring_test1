@@ -14,3 +14,6 @@ INSERT INTO user VALUES(null,"wangwu","wangwu",1000,0,0);
 
 select * from user;
 
+update user set password='$2a$10$4Xrxx8LY/aMrDdPPVy9XqOykC0BmXUMtuB5MZVMPGAQx/Ue8Wq9gC' where username ='zhangsan';
+update user set password='$2a$10$TrnJKNQudf1kg7g0shsi7eaDzC.lsHvIf8.WZimeO5mPzOikdnKl2' where username ='lisi';
+update user set password='$2a$10$OMvfetv9G6dNKsoKyEhCguykoswjRSIb3e0Jq4v9ulkTDjX6t5k76' where username ='wangwu';
