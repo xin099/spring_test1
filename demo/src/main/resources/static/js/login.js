@@ -15,7 +15,7 @@ loginButton.onclick = function () {
     $.ajax({
         url: "/login",
         method: "POST",
-        data: {username:username.value.trim(), password:password.value.trim()},
+        data: JSON.stringify({username:username.value.trim(), password:password.value.trim()}),
         contentType: "application/json;charset=utf-8",
         success: function (data, status) {
             if (data.status == 1) {
