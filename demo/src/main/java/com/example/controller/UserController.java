@@ -121,30 +121,30 @@ public class UserController {
      * @Author: XX
      * @Date: 0908
      */
-    @RequestMapping("/userinfo")
-    @ResponseBody
-    public Object getUserInfo(HttpServletRequest request) {
-        try {
-            HttpSession session = request.getSession(false);
-            User user = (User) session.getAttribute("user");
-            User newuser = userService.selectByName(user.getUsername());
-            return newuser;
-        } catch (NullPointerException e) {
-            log.error("没有该用户");
-            System.out.println("没有该用户");
-            return new User();
-        }
-    }
-//    @RequestMapping("/userInfo")
-//    public ResponseBodyMessage<User> getUserInfo(HttpServletRequest request) {
-//        HttpSession session = request.getSession(false);
-//        User user = (User) session.getAttribute(Constant.USER_SESSION_KEY);
-//        if (user == null) {
-//            return new ResponseBodyMessage<>(-1,"当前用户不存在",null);
-//        }else{
-//            return new ResponseBodyMessage<>(1,"查找成功!", newUser);
+//    @RequestMapping("/userinfo")
+//    @ResponseBody
+//    public Object getUserInfo(HttpServletRequest request) {
+//        try {
+//            HttpSession session = request.getSession(false);
+//            User user = (User) session.getAttribute("user");
+//            User newuser = userService.selectByName(user.getUsername());
+//            return newuser;
+//        } catch (NullPointerException e) {
+//            log.error("没有该用户");
+//            System.out.println("没有该用户");
+//            return new User();
 //        }
 //    }
+    @RequestMapping("/userInfo")
+    public ResponseBodyMessage<User> getUserInfo(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        User user = (User) session.getAttribute(Constant.USER_SESSION_KEY);
+        if (user == null) {
+            return new ResponseBodyMessage<>(-1,"当前用户不存在",null);
+        }else{
+            return new ResponseBodyMessage<>(1,"查找成功!", user);
+        }
+    }
 
 
     /**

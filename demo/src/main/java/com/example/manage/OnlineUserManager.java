@@ -11,35 +11,52 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author: XX
  * @create: 2022-09-08 14:53
  **/
+//@Component
+//public class OnlineUserManager {
+//    private ConcurrentHashMap<Integer, WebSocketSession> gameHall = new ConcurrentHashMap<>();
+//    private ConcurrentHashMap<Integer, WebSocketSession> gameRoom = new ConcurrentHashMap<>();
+//
+//    public void enterGameHall(int userId, WebSocketSession session) {
+//        gameHall.put(userId, session);
+//    }
+//
+//    // 只有当前页面退出的时候, 能销毁自己的 session
+//    // 避免当一个 userId 打开两次 游戏页面, 错误的删掉之前的会话的问题.
+//    public void exitGameHall(int userId) {
+//        gameHall.remove(userId);
+//    }
+//
+//    public WebSocketSession getSessionFromGameHall(int userId) {
+//        return gameHall.get(userId);
+//    }
+//
+//    public void enterGameRoom(int userId, WebSocketSession session) {
+//        gameRoom.put(userId, session);
+//    }
+//
+//    public void exitGameRoom(int userId) {
+//        gameRoom.remove(userId);
+//    }
+//
+//    public WebSocketSession getSessionFromGameRoom(int userId) {
+//        return gameRoom.get(userId);
+//    }
+//
+//}
 @Component
 public class OnlineUserManager {
-    private ConcurrentHashMap<Integer, WebSocketSession> gameHall = new ConcurrentHashMap<>();
-    private ConcurrentHashMap<Integer, WebSocketSession> gameRoom = new ConcurrentHashMap<>();
-
-    public void enterGameHall(int userId, WebSocketSession session) {
-        gameHall.put(userId, session);
+    // 这个哈希表是表示当前用户在游戏大厅的在线状态
+    private ConcurrentHashMap<Integer, WebSocketSession> gameState = new ConcurrentHashMap<>();
+    public void enterGameIndex(int userId, WebSocketSession webSocketSession) {
+        gameState.put(userId,webSocketSession);
     }
 
-    // 只有当前页面退出的时候, 能销毁自己的 session
-    // 避免当一个 userId 打开两次 游戏页面, 错误的删掉之前的会话的问题.
     public void exitGameHall(int userId) {
-        gameHall.remove(userId);
+        gameState.remove(userId);
     }
 
-    public WebSocketSession getSessionFromGameHall(int userId) {
-        return gameHall.get(userId);
+    public WebSocketSession getState(int userId) {
+        return gameState.get(userId);
     }
-
-    public void enterGameRoom(int userId, WebSocketSession session) {
-        gameRoom.put(userId, session);
-    }
-
-    public void exitGameRoom(int userId) {
-        gameRoom.remove(userId);
-    }
-
-    public WebSocketSession getSessionFromGameRoom(int userId) {
-        return gameRoom.get(userId);
-    }
-
 }
+

@@ -1,0 +1,47 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html, body {
+    height: 100%;
+
+    background-image: url(../images/bg.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+.container {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#screen {
+    width: 450px;
+    height: 50px;
+    margin-top: 10px;
+    background-color: #fff;
+    font-size: 22px;
+    line-height: 50px;
+    text-align: center;
+}
+.backButton {
+    width: 450px;
+    height: 50px;
+    font-size: 20px;
+    color: white;
+    background-color: orange;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+
+    text-align: center;
+    line-height: 50px;
+    margin-top: 20px;
+}
+
+.backButton:active {
+    background-color: gray;
+}

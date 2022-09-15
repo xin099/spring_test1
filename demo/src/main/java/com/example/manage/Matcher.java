@@ -132,8 +132,8 @@ public class Matcher {
                 System.out.println("匹配出两个玩家: "+player1.getUsername()+","+player2.getUsername());
                 // 3. 获取到玩家的 websocket 的会话
                 // 获取到会话的目的是为了告诉玩家,你排到了..
-                WebSocketSession session1 = onlineUserManager.getSessionFromGameHall(player1.getUserId());
-                WebSocketSession session2 = onlineUserManager.getSessionFromGameHall(player2.getUserId());
+                WebSocketSession session1 = onlineUserManager.getState(player1.getUserId());
+                WebSocketSession session2 = onlineUserManager.getState(player2.getUserId());
                 //理论上来说,匹配队列中的玩家一定是在线的状态
                 // 因为前面的逻辑里进行了处理,当玩家断开连接的时候把玩家从匹配队列中移除
                 // 但是此处仍然进行一次判定

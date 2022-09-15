@@ -1,7 +1,11 @@
 package com.example.config;
 
+import com.example.controller.MatchController;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
+import org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor;
 
 /**
  * @program: spring_test1
@@ -24,5 +28,14 @@ public class AppConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/**/register")
                 .excludePathPatterns("/**/logout");
     }
+    @Autowired
+    private MatchController matchController;
+
+
+    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
+        registry.addHandler(matchController,"/findMatch")
+                .addInterceptors(new HttpSessionHandshakeInterceptor());
+    }
+
 
 }

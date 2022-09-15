@@ -36,8 +36,8 @@ public class MatchController extends TextWebSocketHandler {
             User user = (User) session.getAttributes().get(Constant.USER_SESSION_KEY);
 
             // 2. 先判定当前用户是否已经登录过(已经是在线状态), 如果是已经在线, 就不该继续进行后续逻辑.
-            if (onlineUserManager.getSessionFromGameHall(user.getUserId()) != null
-                    || onlineUserManager.getSessionFromGameRoom(user.getUserId()) != null) {
+            if (onlineUserManager.getState(user.getUserId()) != null
+                    || onlineUserManager.getState(user.getUserId()) != null) {
                 // 当前用户已经登录了!!
                 // 针对这个情况要告知客户端, 你这里重复登录了.
                 MatchResponse response = new MatchResponse();
@@ -51,7 +51,7 @@ public class MatchController extends TextWebSocketHandler {
             }
 
             // 3. 拿到了身份信息之后, 就可以把玩家设置成在线状态了
-            onlineUserManager.enterGameHall(user.getUserId(), session);
+            onlineUserManager.enterGameIndex(user.getUserId(), session);
             System.out.println("玩家 " + user.getUsername() + " 进入游戏大厅!");
         } catch (NullPointerException e) {
             System.out.println("[MatchAPI.afterConnectionEstablished] 当前用户未登录!");
@@ -101,7 +101,7 @@ public class MatchController extends TextWebSocketHandler {
         try {
             // 玩家下线, 从 OnlineUserManager 中删除
             User user = (User) session.getAttributes().get("user");
-            WebSocketSession tmpSession = onlineUserManager.getSessionFromGameHall(user.getUserId());
+            WebSocketSession tmpSession = onlineUserManager.getState(user.getUserId());
             if (tmpSession == session) {
                 onlineUserManager.exitGameHall(user.getUserId());
             }
@@ -118,7 +118,7 @@ public class MatchController extends TextWebSocketHandler {
         try {
             // 玩家下线, 从 OnlineUserManager 中删除
             User user = (User) session.getAttributes().get(Constant.USER_SESSION_KEY);
-            WebSocketSession tmpSession = onlineUserManager.getSessionFromGameHall(user.getUserId());
+            WebSocketSession tmpSession = onlineUserManager.getState(user.getUserId());
             if (tmpSession == session) {
                 onlineUserManager.exitGameHall(user.getUserId());
             }
