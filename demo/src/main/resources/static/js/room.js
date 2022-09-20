@@ -94,8 +94,9 @@ function initGame() {
         if (chessBoard[row][col] == 0) {
             // TODO 发送坐标给服务器, 服务器要返回结果
 
-            oneStep(col, row, gameInfo.isWhite);
-            chessBoard[row][col] = 1;
+            send(row,col);
+            // oneStep(col, row, gameInfo.isWhite);
+            // chessBoard[row][col] = 1;
         }
     }
 
@@ -106,4 +107,57 @@ initGame();
 
 
 
+let websocketUrl = 'ws://'+ location.host +'/game';
+let websocket = new WebSocket(websocketUrl);
+
+websocket.onopen = function() {
+    console.log("房间链接成功!");
+}
+websocket.onclose = function() {
+    console.log("房间断开链接");
+}
+websocket.onerror = function() {
+    console.log("房间出现异常");
+}
+window.onbeforeunload = function() {
+    websocket.close();
+}
+websocket.onmessage = function(e) {
+    console.log(e.data);
+    let resp = JSON.parse(e.data);
+
+    if(resp.message != 'gameReady') {
+        console.log("响应类型错误");
+        location.assign("index.html");
+        return;
+    }
+    if(resp.status == -1) {
+        alert("游戏链接失败!");
+        location.assign("index.html");
+        return;
+    }
+
+    gameInfo.roomId == resp.roomId;
+    gameInfo.thisUserId = resp.thisUserId;
+    gameInfo.thatUserId = resp.thatUserId;
+    gameInfo.isWhite = resp.whiteUser == resp.thisUserId;
+
+    // 初始化棋盘
+    initGame();
+
+    // 设置显示内容
+    setScreenText(gameInfo.isWhite);
+}
+
+
+function send(row,col) {
+    let req = {
+        message: 'putChess',
+        userId: gameInfo.thisUserId,
+        row: row,
+        col: col
+    };
+
+    websocket.send(JSON.stringify(req));
+}
 

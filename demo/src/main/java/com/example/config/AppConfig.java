@@ -1,9 +1,13 @@
 package com.example.config;
 
+import com.example.controller.GameController;
 import com.example.controller.MatchController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.socket.config.annotation.EnableWebSocket;
+import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 import org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor;
 
@@ -13,7 +17,9 @@ import org.springframework.web.socket.server.support.HttpSessionHandshakeInterce
  * @author: XX
  * @create: 2022-09-03 21:34
  **/
-public class AppConfig implements WebMvcConfigurer {
+@Configuration
+@EnableWebSocket
+public class AppConfig implements WebSocketConfigurer,WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         LoginInterceptor loginInterceptor = new LoginInterceptor();
@@ -28,10 +34,11 @@ public class AppConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/**/register")
                 .excludePathPatterns("/**/logout");
     }
+
     @Autowired
     private MatchController matchController;
 
-
+    @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(matchController,"/findMatch")
                 .addInterceptors(new HttpSessionHandshakeInterceptor());

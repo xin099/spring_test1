@@ -42,6 +42,20 @@ public class RoomManager {
         }
         return rooms.get(roomId);
     }
+//private ConcurrentHashMap<String,Room> rooms = new ConcurrentHashMap<>();
+//
+//    public void insert(Room room) {
+//        rooms.put(room.getRoomId(),room);
+//    }
+//
+//    public void remove(String roomId) {
+//        rooms.remove(roomId);
+//    }
+//
+//    public Room findRoomByRoomId(String roomId) {
+//        return rooms.get(roomId);
+//    }
+
 
 }
 

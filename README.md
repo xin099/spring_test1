@@ -69,3 +69,8 @@ System.out.println(shopName);
 ```java
 
 ```
+
+# 目前两个问题
+## Canvas画布问题
+
+## WebSocket 连接问题
